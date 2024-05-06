@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3 uid="uid://djuautyfrrgl"]
+
+[ext_resource type="PackedScene" uid="uid://cyiaeskmohwhs" path="res://entities/test_platform.tscn" id="1_mkgxj"]
+[ext_resource type="PackedScene" uid="uid://cb7maog448tk7" path="res://entities/player/player.tscn" id="2_cslt8"]
+
+[node name="CornerCollisionBug" type="Node2D"]
+
+[node name="StaticBody2D" parent="." instance=ExtResource("1_mkgxj")]
+position = Vector2(38, 108)
+
+[node name="StaticBody2D2" parent="." instance=ExtResource("1_mkgxj")]
+position = Vector2(58, 108)
+
+[node name="StaticBody2D3" parent="." instance=ExtResource("1_mkgxj")]
+position = Vector2(78, 108)
+
+[node name="StaticBody2D4" parent="." instance=ExtResource("1_mkgxj")]
+position = Vector2(98, 108)
+
+[node name="StaticBody2D5" parent="." instance=ExtResource("1_mkgxj")]
+position = Vector2(58, 44)
+
+[node name="PlayerCharacter" parent="." instance=ExtResource("2_cslt8")]
+position = Vector2(71, 93)
+
+[node name="Camera2D" type="Camera2D" parent="PlayerCharacter"]
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(18, 120)
+scale = Vector2(0.3, 0.3)
+
+[node name="Label" type="Label" parent="Node2D"]
+offset_right = 335.0
+offset_bottom = 75.0
+text = "Corner collision bug:
+- there is a collision vector perpendicular to
+the motion
+- motion stops because of that collision
+- velocity *doesn't* become zero and side of block hit
+isn't marked correctly: in this case ceiling isn't hit"

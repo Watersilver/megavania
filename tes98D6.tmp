@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://chaobgnqtrpj1"]
+
+[ext_resource type="PackedScene" uid="uid://cb7maog448tk7" path="res://scenes/char.tscn" id="1_c7v1c"]
+[ext_resource type="PackedScene" uid="uid://cyiaeskmohwhs" path="res://test_platform.tscn" id="2_bktq7"]
+
+[node name="TestScene" type="Node2D"]
+
+[node name="pc" parent="." instance=ExtResource("1_c7v1c")]
+position = Vector2(319, 178)
+scale = Vector2(1, 1)
+
+[node name="Camera2D" type="Camera2D" parent="pc"]
+
+[node name="StaticBody2D" parent="." instance=ExtResource("2_bktq7")]
+position = Vector2(341, 246)
+scale = Vector2(22, 1)

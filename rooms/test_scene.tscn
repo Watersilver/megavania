@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=3 uid="uid://chaobgnqtrpj1"]
+
+[ext_resource type="PackedScene" uid="uid://cyiaeskmohwhs" path="res://entities/test_platform.tscn" id="1_ad3b5"]
+[ext_resource type="PackedScene" uid="uid://cb7maog448tk7" path="res://entities/player/player.tscn" id="2_w3f3t"]
+
+[node name="TestScene" type="Node2D"]
+
+[node name="StaticBody2D" parent="." instance=ExtResource("1_ad3b5")]
+position = Vector2(341, 246)
+scale = Vector2(11, 1)
+
+[node name="StaticBody2D2" parent="." instance=ExtResource("1_ad3b5")]
+position = Vector2(527, 221)
+rotation = -0.23911
+scale = Vector2(11, 1)
+
+[node name="StaticBody2D3" parent="." instance=ExtResource("1_ad3b5")]
+position = Vector2(736, 221)
+rotation = 0.23911
+scale = Vector2(11, 1)
+
+[node name="StaticBody2D4" parent="." instance=ExtResource("1_ad3b5")]
+position = Vector2(221, 246)
+
+[node name="StaticBody2D5" parent="." instance=ExtResource("1_ad3b5")]
+position = Vector2(181, 246)
+
+[node name="StaticBody2D6" parent="." instance=ExtResource("1_ad3b5")]
+position = Vector2(330, 165)
+scale = Vector2(11, 1)
+
+[node name="StaticBody2D7" parent="." instance=ExtResource("1_ad3b5")]
+position = Vector2(201, 246)
+
+[node name="StaticBody2D8" parent="." instance=ExtResource("1_ad3b5")]
+position = Vector2(161, 246)
+
+[node name="StaticBody2D9" parent="." instance=ExtResource("1_ad3b5")]
+position = Vector2(141, 246)
+
+[node name="PlayerCharacter" parent="." instance=ExtResource("2_w3f3t")]
+position = Vector2(288, 224)
+
+[node name="Camera2D" type="Camera2D" parent="PlayerCharacter"]
+
+[node name="StaticBody2D10" parent="." instance=ExtResource("1_ad3b5")]
+position = Vector2(141, 226)
+
+[node name="StaticBody2D11" parent="." instance=ExtResource("1_ad3b5")]
+position = Vector2(141, 206)
+
+[node name="StaticBody2D12" parent="." instance=ExtResource("1_ad3b5")]
+position = Vector2(141, 186)
