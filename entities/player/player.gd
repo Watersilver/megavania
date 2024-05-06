@@ -21,6 +21,9 @@ class_name PlayerCharacter
 ## How much does jump speed get reduced when jump button is released.
 @export_range(0.0, 100.0, 0.1) var jump_percentage_reduction = 50
 
+@export_range(0.0, 100.0, 0.1) var facing_change_slowdown = 50
+@export var facing_change_slowdown_duration: float = 0.4
+
 ## If negative, will use the gravity of the physics settings.
 @export var gravity = -1
 
@@ -38,6 +41,9 @@ var jump_pressed = 0
 var can_jump_from_floor = 0
 var can_double_jump = false
 var double_jumped = false
+var facing = 1
+var changed_facing = false
+var facing_change_slowdown_timer = 0
 
 var prev_position = position
 var prev_velocity = velocity
@@ -68,9 +74,6 @@ func _physics_process(delta):
 		
 		# Reset double jump
 		can_double_jump = true
-	
-	# TODO: implement number five of this video
-	# https://www.youtube.com/watch?v=Bsy8pknHc0M
 	
 	# For normal jump parabola:
 	# gravity = - 2 * height / duration ^ 2
@@ -108,10 +111,21 @@ func _physics_process(delta):
 		velocity.y = min(velocity.y, 0)
 	
 	# Get the input direction and handle the movement/deceleration.
+	changed_facing = false
+	facing_change_slowdown_timer = max(facing_change_slowdown_timer - delta, 0)
 	input_dir = Input.get_axis("move_left", "move_right")
 	if input_dir:
-		velocity.x = input_dir * run_speed
+		var prev_facing = facing
+		facing = input_dir
+		if facing != prev_facing:
+			changed_facing = true
+			facing_change_slowdown_timer = facing_change_slowdown_duration
+		if facing_change_slowdown_timer:
+			velocity.x = input_dir * run_speed * (1 - facing_change_slowdown * 0.01)
+		else:
+			velocity.x = input_dir * run_speed
 	else:
+		facing_change_slowdown_timer = 0
 		velocity.x = move_toward(velocity.x, 0, run_speed)
 	
 	# Push player out of a roof edge if they jump too close to it
@@ -207,13 +221,6 @@ func handle_anim_tree():
 		at.running = false
 		at.idling = true
 	
-	at.changed_facing = false
-	if input_dir:
-		var prev_r = at.right
-		if input_dir > 0:
-			at.right = true
-			at.left = false
-		else:
-			at.right = false
-			at.left = true
-		at.changed_facing = at.right != prev_r
+	at.changed_facing = changed_facing
+	at.right = facing == 1
+	at.left = facing == -1
