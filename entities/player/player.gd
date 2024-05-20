@@ -32,6 +32,17 @@ extends CharacterBody2DPlus
 
 @export var climbing_speed = 100
 
+@export_group("Tweaks")
+
+## Hang from edge automatically without needing to press a button. Press crouch to drop.
+@export var auto_hang_from_edge = true
+
+## Attempting to move away from grabbed edge releases grab
+@export var edge_directional_release = true
+
+## Jumping from edge grab is airflip
+@export var air_flip_edge_jump = true
+
 @onready var jep_l = $JumpEdgePush_Left
 @onready var jep_lt = $JumpEdgePush_LeftThreshold
 @onready var jep_r = $JumpEdgePush_Right
@@ -167,13 +178,13 @@ func _physics_process(delta):
 	var just_jumped = false
 	double_jumped = false
 	if jump_pressed and not is_crouching and not is_climbing:
-		if can_jump_from_floor or can_jump_from_edge_grab:
+		if can_jump_from_floor or (can_jump_from_edge_grab and not air_flip_edge_jump):
 			jump_pressed = 0
 			can_jump_from_floor = 0
 			velocity.y = - 2 * jump_max_height * sqrt(gravity / (2 * jump_max_height))
 			current_jump_speed = -velocity.y
 			just_jumped = true
-		elif can_double_jump and double_jump:
+		elif (can_double_jump and double_jump) or (can_jump_from_edge_grab and air_flip_edge_jump):
 			jump_pressed = 0
 			can_double_jump = false
 			velocity.y = - 2 * double_jump_max_height * sqrt(gravity / (2 * double_jump_max_height))
@@ -205,7 +216,7 @@ func _physics_process(delta):
 	if is_walking:
 		speed *= 0.55
 	
-	if input_dir and (not edge_grabbed or just_jumped):
+	if input_dir and (not edge_grabbed or just_jumped or edge_directional_release):
 		var prev_facing = facing
 		facing = input_dir
 		if facing != prev_facing:
@@ -304,11 +315,15 @@ func _physics_process(delta):
 		climb_end_timer = null
 	edge_grabbed = null
 	if edge_grab:
-		if Input.is_action_pressed("edge_grab"):
-			grab_ray.enabled = true
+		if auto_hang_from_edge:
 			grab_ray.scale.x = facing
+			grab_ray.enabled = not Input.is_action_pressed("crouch") and not changed_facing
 		else:
-			grab_ray.enabled = false
+			if Input.is_action_pressed("edge_grab"):
+				grab_ray.enabled = true
+				grab_ray.scale.x = facing
+			else:
+				grab_ray.enabled = false
 		
 		if grab_ray.enabled and edge_grab_state != EdgeGrab.CLIMBING:
 			var prev_pos_grabbed = prev_position # prev position after getting moved by grabbed platform
@@ -388,10 +403,13 @@ func _physics_process(delta):
 		if edge_grab_state == EdgeGrab.GRABBING and not climb_rect.is_colliding():
 			# We can climb but should we?
 			var should_climb = false
-			if facing == 1 and Input.is_action_just_pressed("move_right"):
-				should_climb = true
-			elif facing == -1 and Input.is_action_just_pressed("move_left"):
-				should_climb = true
+			if auto_hang_from_edge:
+				should_climb = Input.is_action_just_pressed("edge_grab")
+			else:
+				if facing == 1 and Input.is_action_just_pressed("move_right"):
+					should_climb = true
+				elif facing == -1 and Input.is_action_just_pressed("move_left"):
+					should_climb = true
 			
 			if should_climb and not just_jumped:
 				#position += climb_checker.position
@@ -595,7 +613,7 @@ func handle_animations():
 			elif not is_anim_playing("land_run"):
 				animated_sprite_2d.play("push")
 		Actions.JUMP:
-			if double_jumped:
+			if double_jumped or (falling_through and velocity.y >= 0):
 				animated_sprite_2d.play("double_jump")
 			elif not is_anim_playing("double_jump"):
 				animated_sprite_2d.play("jump")
@@ -610,12 +628,15 @@ func handle_animations():
 			if animated_sprite_2d.frame > 0:
 				animated_sprite_2d.frame_progress = 0
 		Actions.EDGE_CLIMB:
-			if not is_anim_playing("edge_climb"):
+			if not is_anim_playing("edge_climb") and prev_animation == "edge_climb":
 				animated_sprite_2d.play("crouch_idle")
 			elif not is_anim_playing("crouch_idle"):
 				animated_sprite_2d.play("edge_climb")
+				if animated_sprite_2d.frame < 2:
+					animated_sprite_2d.frame == 2
 	
 	# Store previous values
 	was_moving = is_moving
 	was_walking = is_walking
 	was_pushing = is_pushing
+
