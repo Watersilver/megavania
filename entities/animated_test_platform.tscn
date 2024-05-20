@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://ckdb0m3j6ow02"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_bueyv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_33s3m"]
+size = Vector2(40, 10)
+
+[node name="AnimatedTestPlatform" type="AnimatableBody2D"]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+modulate = Color(0.654902, 0.8, 1, 1)
+position = Vector2(-9.53674e-07, 2.38419e-07)
+scale = Vector2(40, 10)
+mesh = SubResource("QuadMesh_bueyv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_33s3m")

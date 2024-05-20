@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://kto7xt3xa18q"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_jdraa"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hhnjq"]
+size = Vector2(20, 4)
+
+[node name="OneWayBody2D" type="StaticBody2D"]
+collision_layer = 2
+metadata/_edit_group_ = true
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+modulate = Color(0.49767, 0.274002, 0.492136, 1)
+position = Vector2(0, -8.00001)
+scale = Vector2(20, 4.00002)
+mesh = SubResource("QuadMesh_jdraa")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_hhnjq")
+one_way_collision = true

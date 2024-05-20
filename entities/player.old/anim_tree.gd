@@ -11,6 +11,7 @@ extends AnimationTree
 @export var running = false
 @export var idling = true
 @export var grounded = true
+@export var landed = true
 @export var small_v_speed = true
 @export var descending = false
 @export var ascending = false

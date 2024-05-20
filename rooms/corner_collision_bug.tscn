@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://djuautyfrrgl"]
 
 [ext_resource type="PackedScene" uid="uid://cyiaeskmohwhs" path="res://entities/test_platform.tscn" id="1_mkgxj"]
-[ext_resource type="PackedScene" uid="uid://cb7maog448tk7" path="res://entities/player/player.tscn" id="2_cslt8"]
+[ext_resource type="PackedScene" uid="uid://cb7maog448tk7" path="res://entities/player.old/player.old.tscn" id="2_cslt8"]
 
 [node name="CornerCollisionBug" type="Node2D"]
 
