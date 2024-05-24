@@ -250,17 +250,11 @@ func _physics_process(delta):
 		jep_rt.force_raycast_update()
 		
 		if jep_l.is_colliding() and not jep_lt.is_colliding() and not jep_rt.is_colliding() and not jep_r.is_colliding():
-			var v = velocity
-			velocity = -(jep_l.position - jep_lt.position) / delta
-			move_and_slide_plus()
-			velocity = v
+			change_pos(-(jep_l.position - jep_lt.position))
 			pushed_right = true
 		
 		if jep_r.is_colliding() and not jep_rt.is_colliding() and not jep_lt.is_colliding() and not jep_l.is_colliding():
-			var v = velocity
-			velocity = -(jep_r.position - jep_rt.position) / delta
-			move_and_slide_plus()
-			velocity = v
+			change_pos(-(jep_r.position - jep_rt.position))
 			pushed_left = true
 	
 	
@@ -632,8 +626,8 @@ func handle_animations():
 				animated_sprite_2d.play("crouch_idle")
 			elif not is_anim_playing("crouch_idle"):
 				animated_sprite_2d.play("edge_climb")
-				if animated_sprite_2d.frame < 2:
-					animated_sprite_2d.frame == 2
+				if animated_sprite_2d.frame < 1:
+					animated_sprite_2d.frame = 1
 	
 	# Store previous values
 	was_moving = is_moving

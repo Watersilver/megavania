@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://chaobgnqtrpj1"]
+[gd_scene load_steps=9 format=3 uid="uid://chaobgnqtrpj1"]
 
 [ext_resource type="PackedScene" uid="uid://cyiaeskmohwhs" path="res://entities/test_platform.tscn" id="1_ad3b5"]
 [ext_resource type="PackedScene" uid="uid://kto7xt3xa18q" path="res://entities/test_one_way_platform.tscn" id="3_jr2y7"]
 [ext_resource type="PackedScene" uid="uid://byukexwuj1m0l" path="res://entities/player/player.tscn" id="3_k7lne"]
 [ext_resource type="PackedScene" uid="uid://ckdb0m3j6ow02" path="res://entities/animated_test_platform.tscn" id="4_w30wq"]
+[ext_resource type="Script" path="res://scripts/control_label.gd" id="5_dalg2"]
 
 [sub_resource type="Animation" id="Animation_k3hje"]
 length = 0.001
@@ -72,17 +73,18 @@ position = Vector2(221, 246)
 position = Vector2(181, 246)
 
 [node name="StaticBody2D6" parent="." instance=ExtResource("1_ad3b5")]
-position = Vector2(330, 165)
+position = Vector2(540, 132)
 scale = Vector2(11, 1)
 
 [node name="StaticBody2D7" parent="." instance=ExtResource("1_ad3b5")]
 position = Vector2(201, 246)
 
 [node name="StaticBody2D8" parent="." instance=ExtResource("1_ad3b5")]
-position = Vector2(161, 246)
+position = Vector2(151, 246)
+scale = Vector2(2, 1)
 
 [node name="StaticBody2D9" parent="." instance=ExtResource("1_ad3b5")]
-position = Vector2(141, 246)
+position = Vector2(141, 166)
 
 [node name="StaticBody2D10" parent="." instance=ExtResource("1_ad3b5")]
 position = Vector2(141, 226)
@@ -94,18 +96,19 @@ position = Vector2(141, 206)
 position = Vector2(141, 186)
 
 [node name="StaticBody2D13" parent="." instance=ExtResource("1_ad3b5")]
-position = Vector2(21, 186)
+position = Vector2(21, 166)
 scale = Vector2(11, 1)
 
 [node name="StaticBody2D14" parent="." instance=ExtResource("1_ad3b5")]
-position = Vector2(21, 144)
+position = Vector2(21, 124)
 scale = Vector2(5, 1)
 
 [node name="StaticBody2D15" parent="." instance=ExtResource("1_ad3b5")]
-position = Vector2(240, 137.9)
+position = Vector2(450, 104.9)
 
 [node name="OneWayBody2D" parent="." instance=ExtResource("3_jr2y7")]
-position = Vector2(450, 165)
+position = Vector2(680, 132)
+scale = Vector2(3, 1)
 
 [node name="AnimatedTestPlatform" parent="." instance=ExtResource("4_w30wq")]
 position = Vector2(384, 108)
@@ -115,3 +118,96 @@ libraries = {
 "": SubResource("AnimationLibrary_88ofx")
 }
 autoplay = "move"
+
+[node name="Tutorial Labels" type="Node2D" parent="."]
+scale = Vector2(0.5, 0.5)
+
+[node name="Label" type="Label" parent="Tutorial Labels"]
+offset_left = 458.0
+offset_top = 520.0
+offset_right = 603.0
+offset_bottom = 543.0
+text = "{action} to move left"
+script = ExtResource("5_dalg2")
+action = "move_left"
+
+[node name="Label2" type="Label" parent="Tutorial Labels"]
+offset_left = 460.0
+offset_top = 546.0
+offset_right = 616.0
+offset_bottom = 569.0
+text = "{action} to move right"
+script = ExtResource("5_dalg2")
+action = "move_right"
+
+[node name="Label3" type="Label" parent="Tutorial Labels"]
+offset_left = 644.0
+offset_top = 266.0
+offset_right = 811.0
+offset_bottom = 419.0
+text = "{action} to jump
+
+Hold to jump higher
+
+Press again on the air
+to double jump"
+horizontal_alignment = 1
+script = ExtResource("5_dalg2")
+action = "jump"
+
+[node name="Label4" type="Label" parent="Tutorial Labels"]
+offset_left = -40.0
+offset_top = 192.0
+offset_right = 127.0
+offset_bottom = 222.0
+text = "Hold {action} to crouch"
+horizontal_alignment = 1
+script = ExtResource("5_dalg2")
+action = "crouch"
+
+[node name="Label5" type="Label" parent="Tutorial Labels"]
+offset_left = 240.0
+offset_top = 152.0
+offset_right = 423.0
+offset_bottom = 253.0
+text = "Edges are auto grabbed
+{action} to climb
+
+You can also jump off"
+script = ExtResource("5_dalg2")
+action = "edge_grab"
+
+[node name="Label6" type="Label" parent="Tutorial Labels"]
+offset_left = 334.0
+offset_top = 262.0
+offset_right = 584.0
+offset_bottom = 311.0
+text = "...or move the other way to drop
+{action} also drops"
+script = ExtResource("5_dalg2")
+action = "crouch"
+
+[node name="Label7" type="Label" parent="Tutorial Labels"]
+offset_left = 1216.0
+offset_top = 188.0
+offset_right = 1516.0
+offset_bottom = 367.0
+text = "Drop by pressing {action}
+and {action2}
+
+
+Some platforms are
+jump through"
+horizontal_alignment = 1
+script = ExtResource("5_dalg2")
+action = "crouch"
+action2 = "jump"
+
+[node name="Label8" type="Label" parent="Tutorial Labels"]
+offset_left = 938.0
+offset_top = 500.0
+offset_right = 1083.0
+offset_bottom = 523.0
+text = "{action} to walk"
+script = ExtResource("5_dalg2")
+action = "walk"

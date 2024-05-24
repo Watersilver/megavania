@@ -1,5 +1,6 @@
-[gd_scene load_steps=124 format=3 uid="uid://byukexwuj1m0l"]
+[gd_scene load_steps=126 format=3 uid="uid://byukexwuj1m0l"]
 
+[ext_resource type="Shader" path="res://entities/player/player.gdshader" id="1_2qdbu"]
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_knvgx"]
 [ext_resource type="Texture2D" uid="uid://dtiqdyps720dv" path="res://assets/textures/charTemplate/Air Spin/player air spin 48x48.png" id="2_4i5yk"]
 [ext_resource type="Texture2D" uid="uid://bttpyb7m54nw7" path="res://assets/textures/charTemplate/Player Idle/Player Idle 48x48.png" id="2_e061d"]
@@ -22,6 +23,9 @@ size = Vector2(6, 29)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_urcgj"]
 size = Vector2(6, 18)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rf3as"]
+shader = ExtResource("1_2qdbu")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_33mj7"]
 atlas = ExtResource("2_upmq6")
@@ -859,6 +863,7 @@ shape = SubResource("RectangleShape2D_urcgj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 1
+material = SubResource("ShaderMaterial_rf3as")
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_sple1")
 animation = &"double_jump"
